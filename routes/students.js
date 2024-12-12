@@ -136,3 +136,59 @@ router.put('/:id', async (req, res, next) => {
 
 // Export router, so that it can be imported to construct the apiRouter (app.js)
 module.exports = router;
+
+
+
+//----------------------------------------------------------------------
+// Route to get students who are not associated with any campus
+// In your backend routes (e.g., students.js)
+// Route to get students without a campus
+// Assuming you're using Express.js with Mongoose
+
+// Backend route to fetch students without a campus
+router.get('/students/', async (req, res) => {
+  try {
+    // Fetch students where campusId is NULL or an empty string
+    const studentsWithoutCampus = await Student.find({
+      $or: [{ campusId: null }, { campusId: "" }]
+    });
+
+    res.status(200).json(studentsWithoutCampus); // Send only students without a campus
+  } catch (error) {
+    console.error('Error fetching students without campus:', error);
+    res.status(500).json({ error: 'Failed to fetch students without a campus' });
+  }
+});
+
+
+
+
+
+
+
+
+
+// Route to add an existing student to a campus
+router.put('/students/:studentId/', async (req, res) => {
+  const studentId = req.params.studentId;
+  const { campusId } = req.body;
+
+  try {
+    const student = await Student.findById(studentId);
+
+    if (!student) {
+      return res.status(404).json({ error: 'Student not found' });
+    }
+
+    if (student.campusId) {
+      return res.status(400).json({ error: 'Student is already associated with a campus' });
+    }
+
+    student.campusId = campusId;
+    await student.save();
+
+    res.status(200).json(student);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to add student to campus' });
+  }
+});
