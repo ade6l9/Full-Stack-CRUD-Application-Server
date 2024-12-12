@@ -33,17 +33,56 @@ router.get('/', ash(async(req, res) => {
 }));
 
 /* GET STUDENT BY ID */
-router.get('/:id', ash(async(req, res) => {
+router.get('/:id', ash(async (req, res) => {
   // Find student by Primary Key
-  let student = await Student.findByPk(req.params.id, {include: [Campus]});  // Get the student and its associated campus
+  let student = await Student.findByPk(req.params.id, { include: [Campus] });  // Get the student and its associated campuses
+  if (!student) {
+    return res.status(404).json({ message: 'Student not found' });  // Status code 404 Not Found
+  }
   res.status(200).json(student);  // Status code 200 OK - request succeeded
 }));
 
 /* ADD NEW STUDENT */
-router.post('/', function(req, res, next) {
-  Student.create(req.body)
-    .then(createdStudent => res.status(200).json(createdStudent))
-    .catch(err => next(err));
+router.post('/', async (req, res) => {
+  try {
+    console.log("Request Body:", req.body); // Log incoming data
+    const { firstname, lastname, email, imageurl, gpa, campusId } = req.body;
+
+    // Validate required fields
+    if (!firstname || !lastname || !email || gpa === undefined) {
+      return res.status(400).json({
+        error: "First name, last name, email, and GPA are required.",
+      });
+    }
+
+    // Validate GPA
+    if (gpa < 0.0 || gpa > 4.0) {
+      return res.status(400).json({
+        error: "GPA must be between 0.0 and 4.0.",
+      });
+    }
+
+    // Validate email format
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      return res.status(400).json({ error: "Email must be a valid email address." });
+    }
+
+    // Create the new student
+    const newStudent = await Student.create({
+      firstname,
+      lastname,
+      email,
+      gpa: parseFloat(gpa),
+      imageurl: imageurl || "https://via.placeholder.com/150", // Use default if undefined
+      campusId: campusId || null,
+    });
+
+    console.log("Saved Student:", newStudent); // Log saved student
+    res.status(201).json(newStudent); // Status code 201 Created
+  } catch (error) {
+    console.error("Error creating student:", error.message); // Log the error
+    res.status(500).json({ error: "Error creating student." }); // Status code 500 Internal Server Error
+  }
 });
 
 /* DELETE STUDENT */
@@ -69,3 +108,20 @@ router.put('/:id', ash(async(req, res) => {
 
 // Export router, so that it can be imported to construct the apiRouter (app.js)
 module.exports = router;
+
+
+// remove studnet from campus
+// PUT /api/students/:id
+router.put('/:id', async (req, res, next) => {
+  try {
+    const student = await Student.findByPk(req.params.id);
+    if (student) {
+      await student.update(req.body);
+      res.status(200).send(student);
+    } else {
+      res.status(404).send('Student not found');
+    }
+  } catch (err) {
+    next(err);
+  }
+});

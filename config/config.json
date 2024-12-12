@@ -1,0 +1,24 @@
+{
+  "development": {
+  "username": "adelinadautovic",
+  "password": null,  
+  "database": "campus_management_dev",
+  "host": "127.0.0.1",
+  "dialect": "postgres"
+}
+,
+  "test": {
+    "username": "adelinadautovic",
+    "password": null,
+    "database": "campus_management_test",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "adelinadautovic",
+    "password": null,
+    "database": "campus_management_prod",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}

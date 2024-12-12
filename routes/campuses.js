@@ -37,21 +37,46 @@ router.get('/:id', ash(async(req, res) => {
   res.status(200).json(campus);  // Status code 200 OK - request succeeded
 }));
 
-/* DELETE CAMPUS */
-router.delete('/:id', ash(async(req, res) => {
-  await Campus.destroy({
-    where: {
-      id: req.params.id
+/* DELETE A CAMPUS */
+router.delete('/:id', ash(async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Attempt to delete the campus
+    const deleted = await Campus.destroy({ where: { id } });
+
+    // If no campus is found, send a 404 error
+    if (!deleted) {
+      return res.status(404).json({ error: "Campus not found." });
     }
-  });
-  res.status(200).json("Deleted a campus!");
+
+    // Return a 204 No Content status
+    res.status(204).end();
+  } catch (error) {
+    res.status(500).json({ error: "Error deleting the campus." });
+  }
 }));
 
 /* ADD NEW CAMPUS */
-router.post('/', ash(async(req, res) => {
-  let newCampus = await Campus.create(req.body);
-  res.status(200).json(newCampus);  // Status code 200 OK - request succeeded
-}));
+router.post('/', async (req, res) => {
+  try {
+    console.log("Request Body:", req.body); // Log incoming data
+    const { name, address, description, imageUrl } = req.body;
+
+    const newCampus = await Campus.create({
+      name,
+      address,
+      description,
+      imageUrl: imageUrl || 'https://via.placeholder.com/150', // Use default if undefined
+    });
+
+    console.log("Saved Campus:", newCampus); // Log saved campus
+    res.status(201).json(newCampus);
+  } catch (error) {
+    console.error("Error creating campus:", error.message);
+    res.status(500).json({ error: "Error creating campus." });
+  }
+});
 
 /* EDIT CAMPUS */
 router.put('/:id', ash(async(req, res) => {

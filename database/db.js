@@ -15,7 +15,7 @@ console.log('Opening database connection');
 
 // This is the Sequelize entry point for connecting to the database. 
 // Instantiate the Sequelize instance with database name, username, and password. Then connect to the database.
-const db = new Sequelize(dbName, dbUser, dbPwd, {
+const db = new Sequelize('campus_management_dev', 'adelinadautovic', null, {
   host: 'localhost',
   dialect: 'postgres'
 });
