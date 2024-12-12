@@ -106,8 +106,7 @@ router.put('/:id', ash(async(req, res) => {
   res.status(201).json(student);  // Status code 201 Created - successful creation of a resource
 }));
 
-// Export router, so that it can be imported to construct the apiRouter (app.js)
-module.exports = router;
+
 
 
 // remove studnet from campus
@@ -125,3 +124,15 @@ router.put('/:id', async (req, res, next) => {
     next(err);
   }
 });
+
+
+
+
+
+
+
+
+
+
+// Export router, so that it can be imported to construct the apiRouter (app.js)
+module.exports = router;
