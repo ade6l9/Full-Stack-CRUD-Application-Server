@@ -79,16 +79,29 @@ router.post('/', async (req, res) => {
 });
 
 /* EDIT CAMPUS */
-router.put('/:id', ash(async(req, res) => {
-  await Campus.update(req.body, {
-    where: {
-      id: req.params.id
-    }
-  });
-  // Find campus by Primary Key
-  let campus = await Campus.findByPk(req.params.id, {include: [Student]});  // Get the campus and its associated students
-  res.status(201).json(campus);  // Status code 201 Created - successful creation of a resource
-}))
+// router.put('/:id', ash(async(req, res) => {
+//   await Campus.update(req.body, {
+//     where: {
+//       id: req.params.id
+//     }
+//   });
+//   // Find campus by Primary Key
+//   let campus = await Campus.findByPk(req.params.id, {include: [Student]});  // Get the campus and its associated students
+//   res.status(201).json(campus);  // Status code 201 Created - successful creation of a resource
+// }))
 
-// Export router, so that it can be imported to construct the apiRouter (app.js)
-module.exports = router;
+// // Export router, so that it can be imported to construct the apiRouter (app.js)
+// module.exports = router;
+router.put("/:id", async (req, res, next) => {
+  try {
+    const campus = await Campus.findByPk(req.params.id);
+    if (campus) {
+      const updatedCampus = await campus.update(req.body);
+      res.status(200).json(updatedCampus);
+    } else {
+      res.status(404).send("Campus not found");
+    }
+  } catch (error) {
+    next(error);
+  }
+});
