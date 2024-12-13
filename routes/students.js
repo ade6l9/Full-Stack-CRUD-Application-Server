@@ -97,14 +97,14 @@ router.delete('/:id', function(req, res, next) {
 });
 
 /* EDIT STUDENT */
-router.put('/:id', ash(async(req, res) => {
-  await Student.update(req.body,
-        { where: {id: req.params.id} }
-  );
-  // Find student by Primary Key
-  let student = await Student.findByPk(req.params.id);
-  res.status(201).json(student);  // Status code 201 Created - successful creation of a resource
-}));
+// router.put('/:id', ash(async(req, res) => {
+//   await Student.update(req.body,
+//         { where: {id: req.params.id} }
+//   );
+//   // Find student by Primary Key
+//   let student = await Student.findByPk(req.params.id);
+//   res.status(201).json(student);  // Status code 201 Created - successful creation of a resource
+// }));
 
 
 
@@ -150,7 +150,40 @@ router.put('/students/:id', async (req, res) => {
   }
 });
 
+//edit student
+// Update Student Details
+router.put('/:id', async (req, res) => {
+  try {
+    const { firstname, lastname, email, imageurl, gpa, campusId } = req.body;
+    const studentId = req.params.id;
 
+    // Find student by ID and update details
+    const updatedStudent = await Student.update(
+      {
+        firstname,
+        lastname,
+        email,
+        imageurl,
+        gpa: parseFloat(gpa),  // Ensure GPA is a float
+        campusId: campusId || null,  // If campusId is not provided, set it to null
+      },
+      {
+        where: { id: studentId },
+        returning: true,  // Return the updated student
+      }
+    );
+
+    if (updatedStudent[0] === 0) {
+      return res.status(404).json({ error: 'Student not found' });
+    }
+
+    // Send back the updated student
+    res.status(200).json(updatedStudent[1][0]);
+  } catch (error) {
+    console.error("Error updating student:", error.message);
+    res.status(500).json({ error: "Error updating student." });
+  }
+});
 
 
 
