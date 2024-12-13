@@ -109,7 +109,7 @@ router.put('/:id', ash(async(req, res) => {
 
 
 
-// remove studnet from campus
+// remove studnet from campus || single campus view
 // PUT /api/students/:id
 router.put('/:id', async (req, res, next) => {
   try {
@@ -124,6 +124,34 @@ router.put('/:id', async (req, res, next) => {
     next(err);
   }
 });
+
+
+// Backend route to remove a student from a campus || single student view
+// Backend route to remove student from campus
+router.put('/students/:id', async (req, res) => {
+  try {
+    const studentId = req.params.id;
+
+    // Update the student's campusId to null (removing them from the campus)
+    const updatedStudent = await Student.findByIdAndUpdate(
+      studentId,
+      { campusId: null },
+      { new: true } // Return the updated student
+    );
+
+    if (!updatedStudent) {
+      return res.status(404).json({ error: 'Student not found' });
+    }
+
+    res.status(200).json(updatedStudent); // Return the updated student
+  } catch (error) {
+    console.error("Error removing student from campus:", error);
+    res.status(500).json({ error: 'Failed to remove student from campus' });
+  }
+});
+
+
+
 
 
 
