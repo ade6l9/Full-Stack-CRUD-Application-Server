@@ -15,16 +15,16 @@ This is the server-side application for the Campus Management System. It is buil
    ```bash
    git clone <server-repository-url>
 2. Install dependencies:
-   ```bash
-  npm install
+    ```bash
+     npm install
 3. Set up the database:
   - Create a PostgreSQL database.
   - Configure the database settings in the config.js file.
 4. Run the application:
    ```bash
-    npm start
+   npm start
 
-
+ 
 ## API Endpoints
 
 # Campus Routes
