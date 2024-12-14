@@ -25,16 +25,16 @@ This is the server-side application for the Campus Management System. It is buil
    npm start
 
  
-## API Endpoints
+# API Endpoints
 
-# Campus Routes
+## Campus Routes
 - GET /api/campuses: Get all campuses
 - POST /api/campuses: Add a new campus
 - GET /api/campuses/:campusId: Get a specific campus (and its students)
 - PUT /api/campuses/:campusId: Update a campus
 - DELETE /api/campuses/:campusId: Delete a campus
 
-# Student Routes
+## Student Routes
 - GET /api/students: Get all students
 - POST /api/students: Add a new student
 - GET /api/students/:studentId: Get a specific student (and their campus)
