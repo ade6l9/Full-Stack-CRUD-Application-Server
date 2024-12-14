@@ -1,44 +1,46 @@
-# server-starter-code
+# Campus Management System - Server
 
-This repository is the server (back-end) starter code for Final Project - Full-Stack CRUD Application.
+This is the server-side application for the Campus Management System. It is built with Node.js, Express, and Sequelize and provides RESTful API routes for managing campuses and students.
 
-**Prerequisites**
-- Install PostgreSQL (Postgres) [[link](https://www.postgresql.org/download/)] - required to run the database
-- Install Postman [[link](https://www.postman.com/downloads/)] - optional tool for API testing 
+## Features
 
-----------
-### 1. Use the following process to ***import*** the Final Project server starter code repository to your GitHub account as the starter codebase
-1.	Log on to GitHub
-2.	Click on the + sign in the top right corner (next to the user icon)
-3.	In the dropdown menu, select "Import repository"
-4.	A new page will open
-5.	In "Your old repository’s clone URL" field, enter: `https://github.com/johnnylaicode/server-starter-code`
-6.	In "Your new repository details" field, enter your own repository name (e.g., "final-project-server")
-7.	Click on the "Begin import" button to start the process
-8.	After the process completed, your new "final-project-server" repository is created – as a completely independent codebase
-9.	From this point on, you can clone your new repository, make changes, create feature branches, and create/merge pull requests
+- Provides endpoints for CRUD operations on campuses and students
+- Uses PostgreSQL as the database
+- Sequelize ORM for database management
+- Middleware for error handling and validation
 
-----------
-### 2. Use the information below to ***clone*** the starter codebase to your local machine
-After creating the starter codebase "final-project-server" repository on GitHub (see above), you can clone it to your local machine. The instructions on how to clone a GitHub repository are available at this [link](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository).
+## Installation and Setup
 
-----------
-### 3. Set up and run the server (back-end) application on your local machine
-1.	Start a terminal (e.g., Git Bash) on your local machine.
-2.  Go to the "final-project-server" folder, enter the command to install dependencies: `npm install` 
-3.	Start the server application by entering the command: `npm start` 
-4.	After the server application is successfully started, its access address is at: `http://localhost:5001` 
+1. Clone the repository:
+   ```bash
+   git clone <server-repository-url>
+2. Install dependencies:
+   ```bash
+  npm install
+3. Set up the database:
+  - Create a PostgreSQL database.
+  - Configure the database settings in the config.js file.
+4. Run the application:
+   ```bash
+    npm start
 
-<br/>
 
-## Common Errors You May Encounter
-### Error: password authentication failed for user "postgres"
-This error is related to the user password you set for your own local Postgres database. 
-#### Solution:
-In the `server-starter-code/database/utils/configDB.js` file, replace the `dBpwd` value with your password for Postgres database.
+## API Endpoints
 
-```
-  const dbName = 'starter-server';
-  const dbUser = 'postgres';
-  const dbPwd = '<your password>';
-```
+# Campus Routes
+- GET /api/campuses: Get all campuses
+- POST /api/campuses: Add a new campus
+- GET /api/campuses/:campusId: Get a specific campus (and its students)
+- PUT /api/campuses/:campusId: Update a campus
+- DELETE /api/campuses/:campusId: Delete a campus
+
+# Student Routes
+- GET /api/students: Get all students
+- POST /api/students: Add a new student
+- GET /api/students/:studentId: Get a specific student (and their campus)
+- PUT /api/students/:studentId: Update a student
+- DELETE /api/students/:studentId: Delete a student
+
+## Contributor
+Adelina Dautovic <br>
+Github: ade6l9
