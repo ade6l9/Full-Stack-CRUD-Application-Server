@@ -96,21 +96,7 @@ router.delete('/:id', function(req, res, next) {
     .catch(err => next(err));
 });
 
-/* EDIT STUDENT */
-// router.put('/:id', ash(async(req, res) => {
-//   await Student.update(req.body,
-//         { where: {id: req.params.id} }
-//   );
-//   // Find student by Primary Key
-//   let student = await Student.findByPk(req.params.id);
-//   res.status(201).json(student);  // Status code 201 Created - successful creation of a resource
-// }));
-
-
-
-
-// remove studnet from campus || single campus view
-// PUT /api/students/:id
+/* REMOVE STUDENT FROM CAMPUS || SINGLE CAMPUS VIEW */ 
 router.put('/:id', async (req, res, next) => {
   try {
     const student = await Student.findByPk(req.params.id);
@@ -125,9 +111,7 @@ router.put('/:id', async (req, res, next) => {
   }
 });
 
-
-// Backend route to remove a student from a campus || single student view
-// Backend route to remove student from campus
+/* REMOVE STUDENT FROM A CAMPUS || SINGLE STUDENT VIEW */ 
 router.put('/students/:id', async (req, res) => {
   try {
     const studentId = req.params.id;
@@ -150,8 +134,7 @@ router.put('/students/:id', async (req, res) => {
   }
 });
 
-//edit student
-// Update Student Details
+/* EDIT STUDENT */
 router.put('/:id', async (req, res) => {
   try {
     const { firstname, lastname, email, imageurl, gpa, campusId } = req.body;
@@ -185,28 +168,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-
-
-
-
-
-
-
-
-
-
-// Export router, so that it can be imported to construct the apiRouter (app.js)
-module.exports = router;
-
-
-
-//----------------------------------------------------------------------
-// Route to get students who are not associated with any campus
-// In your backend routes (e.g., students.js)
-// Route to get students without a campus
-// Assuming you're using Express.js with Mongoose
-
-// Backend route to fetch students without a campus
+/* GET STUDENTS WITHOUT CAMPUS */
 router.get('/students/', async (req, res) => {
   try {
     // Fetch students where campusId is NULL or an empty string
@@ -221,15 +183,7 @@ router.get('/students/', async (req, res) => {
   }
 });
 
-
-
-
-
-
-
-
-
-// Route to add an existing student to a campus
+/* ADD AN EXISTING STUDENT TO CAMPUS */ 
 router.put('/students/:studentId/', async (req, res) => {
   const studentId = req.params.studentId;
   const { campusId } = req.body;
@@ -253,3 +207,8 @@ router.put('/students/:studentId/', async (req, res) => {
     res.status(500).json({ error: 'Failed to add student to campus' });
   }
 });
+
+
+
+/* EXPORT ROUTER */
+module.exports = router;

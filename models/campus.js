@@ -12,8 +12,8 @@ module.exports = (sequelize, DataTypes) => {
       // A campus can have many students
       Campus.hasMany(models.Student, {
         foreignKey: 'campusId',
-        as: 'students', // Alias for the association
-        onDelete: 'CASCADE', // Delete associated students when a campus is deleted
+        as: 'students', 
+        onDelete: 'CASCADE', 
       });
     }
   }
@@ -22,28 +22,28 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: {
         type: DataTypes.STRING,
-        allowNull: false, // Name is required
+        allowNull: false, 
         validate: {
-          notEmpty: true, // Name cannot be an empty string
+          notEmpty: true, 
         },
       },
       address: {
         type: DataTypes.STRING,
-        allowNull: false, // Address is required
+        allowNull: false, 
         validate: {
-          notEmpty: true, // Address cannot be an empty string
+          notEmpty: true, 
         },
       },
       description: {
         type: DataTypes.TEXT,
-        allowNull: true, // Description can be null
+        allowNull: true, 
       },
       imageUrl: {
         type: DataTypes.STRING,
-        allowNull: true, // Image URL can be null
-        defaultValue: 'https://via.placeholder.com/150', // Default image URL
+        allowNull: true, 
+        defaultValue: 'https://via.placeholder.com/150', 
         validate: {
-          isUrl: true, // Validate that it is a valid URL
+          isUrl: true, 
         },
       },
     },

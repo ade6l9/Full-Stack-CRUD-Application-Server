@@ -29,7 +29,7 @@ const Student = db.define('student', {
     allowNull: false,
     unique: true,
   },
-  imageurl: { // Lowercase to match the database column
+  imageurl: { 
     type: DataTypes.STRING,
     defaultValue: 'https://via.placeholder.com/150',
   },
@@ -40,7 +40,7 @@ const Student = db.define('student', {
   campusId: {
     type: DataTypes.INTEGER,
     references: {
-      model: 'campuses', // Name of the campus table
+      model: 'campuses', 
       key: 'id',
     },
   },
