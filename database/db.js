@@ -26,16 +26,17 @@
 
 // module.exports = db;
 
-
 const { Sequelize } = require('sequelize');
 
-// Ensure DATABASE_URL is being used
+// Ensure DATABASE_URL is used
 if (!process.env.DATABASE_URL) {
   console.error('❌ DATABASE_URL is not set. Make sure it is in your Render environment variables.');
   process.exit(1);
 }
 
-// Initialize Sequelize with the DATABASE_URL
+console.log('Using DATABASE_URL:', process.env.DATABASE_URL);
+
+// Initialize Sequelize with DATABASE_URL
 const db = new Sequelize(process.env.DATABASE_URL, {
   dialect: 'postgres',
   dialectOptions: {
@@ -44,10 +45,10 @@ const db = new Sequelize(process.env.DATABASE_URL, {
       rejectUnauthorized: false,
     },
   },
-  logging: false,  // Disable logs (optional)
+  logging: false,  // Disable logging for cleaner output
 });
 
-// Log success or failure
+// Test the connection
 db.authenticate()
   .then(() => console.log('✅ Connected to Neon.tech PostgreSQL'))
   .catch(err => console.error('❌ Database Connection Error:', err));
