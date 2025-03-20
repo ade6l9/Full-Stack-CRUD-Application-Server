@@ -83,3 +83,5 @@ bootApp();
 // Set up express application to use port 5000 as the access point for the server application.
 const PORT = 5001;  // Server application access point port number
 app.listen(PORT, console.log(`Server started on ${PORT}`));
+
+console.log('DATABASE_URL:', process.env.DATABASE_URL);
