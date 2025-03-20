@@ -1,24 +1,27 @@
+// 
+
 /*==================================================
 /database/db.js
 
-It sets up Sequelize with Postgres database. 
-- Create a Sequelize instance to connect to the database specifying database name, username, and password.
+Sets up Sequelize with the Postgres database.
 ==================================================*/
-/* INSTANTIATE DATABASE */ 
 
-// Import module dependencies
-const Sequelize = require('sequelize');  // Import Sequelize
-const {dbName, dbUser, dbPwd} = require('./utils/configDB');  // Import database name, username, password
+// Import Sequelize
+const { Sequelize } = require('sequelize');
 
-// Display a confirmation message for opening a database connection
-console.log('Opening database connection');
-
-// This is the Sequelize entry point for connecting to the database. 
-// Instantiate the Sequelize instance with database name, username, and password. Then connect to the database.
-const db = new Sequelize('campus_management_dev', 'adelinadautovic', null, {
-  host: 'localhost',
-  dialect: 'postgres'
+// Use DATABASE_URL from environment variables (Neon.tech)
+const db = new Sequelize(process.env.DATABASE_URL, {
+  dialect: 'postgres',
+  dialectOptions: {
+    ssl: {
+      require: true, // Ensure SSL connection for Neon.tech
+      rejectUnauthorized: false, // Bypass SSL certificate verification
+    },
+  },
+  logging: false, // Disable logging for cleaner output (optional)
 });
 
-// Export Sequelize instance, which will be modified with models.
+// Display a confirmation message for opening a database connection
+console.log('✅ Connecting to PostgreSQL database...');
+
 module.exports = db;
