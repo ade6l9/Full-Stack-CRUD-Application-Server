@@ -70,7 +70,7 @@ const configureApp = async () => {
 /* SET UP BOOT FOR SERVER APPLICATION */
 // Construct the boot process by incorporating all needed processes
 const bootApp = async () => {
-  await createDB();  // Create database (if not exists)
+  //await createDB();  // Create database (if not exists)
   await syncDatabase();  // Seed the database
   await configureApp();  // Start and configure Express application
 };
